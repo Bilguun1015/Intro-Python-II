@@ -33,10 +33,8 @@ rooms['narrow'].w_to = rooms['foyer']
 rooms['narrow'].n_to = rooms['treasure']
 rooms['treasure'].s_to = rooms['narrow']
 
-#
-# Main
-#
-first_player = Player("BraveHeart", rooms['outside'])
+
+
 
 def advance_room(player, player_input):
     if player_input == 'n':
@@ -67,8 +65,20 @@ def check_bad_input(player, player_input):
     else:
         return False
 
-possible_inputs = ['n', 's', 'w', 'e', 'q']
+# Make a new player object that is currently in the 'outside' room.\
+first_player = Player("BraveHeart", rooms['outside'])
 
+possible_inputs = ['n', 's', 'w', 'e', 'q']
+# Write a loop that:
+#   
+# * Prints the current room name
+# * Prints the current description (the textwrap module might be useful here).
+# * Waits for user input and decides what to do.
+#
+# If the user enters a cardinal direction, attempt to move to the room there.
+# Print an error message if the movement isn't allowed.
+#
+# If the user enters "q", quit the game.
 print('Enter "n" for North, "s" for South, "e" for East, "w" for West and "q" to quit the game.')
 while True:
     print(first_player)
@@ -86,22 +96,7 @@ while True:
     else:
         print('Invalid command! Please enter "n" for North, "s" for South, "e" for East, "w" for West and "q" to quit the game.')
 
-# def main():
-# Make a new player object that is currently in the 'outside' room.\
-#     player_input = input("Enter n for advancing to North:")
-#     if player_input:
-#         advancing_room(first_player, player_input)
-# main()
 
 
 
-# Write a loop that:
-#   
-# * Prints the current room name
-# * Prints the current description (the textwrap module might be useful here).
-# * Waits for user input and decides what to do.
-#
-# If the user enters a cardinal direction, attempt to move to the room there.
-# Print an error message if the movement isn't allowed.
-#
-# If the user enters "q", quit the game.
+
