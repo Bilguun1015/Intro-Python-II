@@ -6,4 +6,4 @@ class Player:
         self.name = name
         self.current_room = current_room
     def __str__(self):
-        return f'{self.name}, you are at \'{self.current_room.name}\' and {self.current_room.description}!'
+        return f'{self.name}, you are at \'{self.current_room.name}\' and {self.current_room.description}'

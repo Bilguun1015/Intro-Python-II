@@ -79,6 +79,7 @@ possible_inputs = ['n', 's', 'w', 'e', 'q']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+
 print('Enter "n" for North, "s" for South, "e" for East, "w" for West and "q" to quit the game.')
 while True:
     print(first_player)
@@ -94,7 +95,7 @@ while True:
         else:
             print('You shall not pass! Read the description carefully to choose your path!')
     else:
-        print('Invalid command! Please enter "n" for North, "s" for South, "e" for East, "w" for West and "q" to quit the game.')
+        print('Invalid command! \nPlease enter "n" for North, "s" for South, "e" for East, "w" for West and "q" to quit the game.')
 
 
 
