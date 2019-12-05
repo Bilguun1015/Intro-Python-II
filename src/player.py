@@ -2,8 +2,22 @@
 # currently.
 from room import Room
 class Player:
-    def __init__(self, name, current_room):
+    def __init__(self, name, current_room, inventory=[]):
         self.name = name
         self.current_room = current_room
+        self.inventory = inventory
+
     def __str__(self):
-        return f'{self.name}, you are at \'{self.current_room.name}\' and {self.current_room.description}'
+        return_str = f'{self.name}, you are at \'{self.current_room.name}\' and {self.current_room.description} \nYour inventory: '
+        for item in self.inventory:
+            return_str = return_str + item.name
+        return return_str
+
+    def add_item(self, item):
+        self.inventory.append(item)
+    
+    def remove_item(self, item_name):
+        for index, item in enumerate(self.inventory):
+            if item.name == item_name:
+                removed_item = self.inventory.pop(index)
+                return removed_item
