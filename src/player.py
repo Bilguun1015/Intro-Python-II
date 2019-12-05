@@ -2,10 +2,10 @@
 # currently.
 from room import Room
 class Player:
-    def __init__(self, name, current_room, inventory=[]):
+    def __init__(self, name, current_room, inventory = None):
         self.name = name
         self.current_room = current_room
-        self.inventory = inventory
+        self.inventory = inventory if inventory is not None else []
 
     def __str__(self):
         return_str = f'{self.name}, you are at \'{self.current_room.name}\' and {self.current_room.description} \nYour inventory: '

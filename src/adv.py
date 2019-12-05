@@ -39,7 +39,8 @@ rooms['narrow'].w_to = rooms['foyer']
 rooms['narrow'].n_to = rooms['treasure']
 rooms['treasure'].s_to = rooms['narrow']
 
-
+def print_help():
+    print('Enter "n" for North, "s" for South, "e" for East, "w" for West, "q" to quit and "h" for Help. \nTo pick up an item type "take item name", to drop the item type "drop item name"')
 
 def advance_room(player, player_input):
     #assigning player input into variable
@@ -52,45 +53,52 @@ def advance_room(player, player_input):
     else:
         return False
 
+def process_command(player, command, item_name):
+    room_items = [ item.name for item in player.current_room.items ]
+    player_items = [ item.name for item in player.inventory ]
+    if command == 'take':
+        if item_name in room_items:
+            item = player.current_room.remove_item(item_name)
+            player.add_item(item)
+            return True
+        else:
+            print(f'{item_name} does not exist in this room!')
+            return True
+    elif command == 'drop':
+        if item_name in player_items:
+            item = player.remove_item(item_name)
+            player.current_room.add_item(item)
+            return True
+        else:
+            print(f'You do not have the item called {item_name} to drop')
+            return True
+    else:
+        return False
+
+def run_command(player, player_input):
+    # splitting 2 word commands
+    splitted_command = player_input.split()
+    # making lists to check if the item exists
+    possible_commands = ['take', 'drop']
+
+    if player_input in ['n', 's', 'w', 'e', 'q', 'h']:
+        if player_input == 'q':
+            print(f"Goodbye {first_player.name}")
+            exit(1)
+        elif player_input == 'h':
+            print_help()
+        elif not advance_room(first_player, player_input):
+            print('You shall not pass! Read the description and choose your path carefully!')
+        return True
+    elif splitted_command[0] in possible_commands:
+        return process_command(player, splitted_command[0], splitted_command[1])
+    else:
+        return False
+
 
 # Make a new player object that is currently in the 'outside' room.\
 first_player = Player("BraveHeart", rooms['outside'])
 
-
-
-def check_command(player, player_input):
-    room_items = [ item.name for item in player.current_room.items ]
-    player_items = [ item.name for item in player.inventory ]
-    possible_commands = ['take', 'drop']
-    splitted_command = player_input.split()
-    if player_input in ['n', 's', 'w', 'e', 'q']:
-        if player_input == 'q':
-            print(f"Goodbye {first_player.name}")
-            exit(1)
-        if not advance_room(first_player, player_input):
-            print('You shall not pass! Read the description and choose your path carefully!')
-        return True
-    elif splitted_command[0] in possible_commands:
-        if splitted_command[0] == 'take':
-            if splitted_command[1] in room_items:
-                item_name = splitted_command[1]
-                item = player.current_room.remove_item(item_name)
-                player.add_item(item)
-                return True
-            else:
-                print(f'{splitted_command[1]} does not exist in this room!')
-                return True
-        elif splitted_command[0] == 'drop':
-            if splitted_command[1] in player_items:
-                item_name = splitted_command[1]
-                item = player.remove_item(item_name)
-                player.current_room.add_item(item)
-                return True
-            else:
-                print(f'You do not have the item called {splitted_command[1]} to drop')
-                return True
-
-possible_inputs = ['n', 's', 'w', 'e', 'q', 'pick sword', 'drop sword']
 # Write a loop that:
 #   
 # * Prints the current room name
@@ -102,14 +110,14 @@ possible_inputs = ['n', 's', 'w', 'e', 'q', 'pick sword', 'drop sword']
 #
 # If the user enters "q", quit the game.
 
-print('Enter "n" for North, "s" for South, "e" for East, "w" for West and "q" to quit the game. \nTo pick up an item type "take item name", to drop the item type "drop item name"')
+print_help()
 while True:
     print(first_player)
     for item in first_player.current_room.items:
         print(f'There is {item.description} {item.name} in this room!')
     player_input = input("-> ")
 
-    if not check_command(first_player, player_input):
+    if not run_command(first_player, player_input):
         print('Invalid command! \nPlease enter "n" for North, "s" for South, "e" for East, "w" for West and "q" to quit the game.')
 
 
