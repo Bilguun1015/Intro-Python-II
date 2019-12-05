@@ -4,13 +4,14 @@ from item import Item
 
 #Declare all the items
 items = {
-    'sword': Item("sword", "nice and sharp")
+    'sword': Item("sword", "nice and sharp"),
+    'ax': Item("ax", "one big")
 }
 
 # Declare all the rooms
 rooms = {
     'outside':  Room("Outside Cave Entrance",
-                     "North of you, the cave mount beckons", [items["sword"]]),
+                     "North of you, the cave mount beckons", [items["ax"], items["sword"]]),
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
 passages run north and east."""),
@@ -40,7 +41,8 @@ rooms['narrow'].n_to = rooms['treasure']
 rooms['treasure'].s_to = rooms['narrow']
 
 def print_help():
-    print('Enter "n" for North, "s" for South, "e" for East, "w" for West, "q" to quit and "h" for Help. \nTo pick up an item type "take item name", to drop the item type "drop item name"')
+    print('Enter "n" for North, "s" for South, "e" for East, "w" for West, "q" to quit and "h" for Help. '
+    '\nTo pick up an item type "take item name", to drop the item type "drop item name"')
 
 def advance_room(player, player_input):
     #assigning player input into variable
