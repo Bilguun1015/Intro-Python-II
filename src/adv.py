@@ -36,35 +36,44 @@ rooms['treasure'].s_to = rooms['narrow']
 
 
 
-def advance_room(player, player_input):
-    if player_input == 'n':
-        player.current_room = player.current_room.n_to
-    elif player_input == 's':
-        player.current_room = player.current_room.s_to
-    elif player_input == 'e':
-        player.current_room = player.current_room.e_to
-    elif player_input == 'w':
-        player.current_room = player.current_room.w_to
-    else:
-        return False
 
-def check_bad_input(player, player_input):
-    foyer_possible_inputs = ['s', 'n', 'e']
-    narrow_possible_inputs = ['w','n']
+    # if player_input == 'n':
+    #     player.current_room = player.current_room.n_to
+    # elif player_input == 's':
+    #     player.current_room = player.current_room.s_to
+    # elif player_input == 'e':
+    #     player.current_room = player.current_room.e_to
+    # elif player_input == 'w':
+    #     player.current_room = player.current_room.w_to
+    # else:
+    #     return False
+
+# def check_bad_input(player, player_input):
+#     foyer_possible_inputs = ['s', 'n', 'e']
+#     narrow_possible_inputs = ['w','n']
     
-    if player.current_room.name == 'Outside Cave Entrance' and player_input == 'n':
-        return True
-    elif player.current_room.name == 'Foyer' and player_input in foyer_possible_inputs:
-        return True
-    elif player.current_room.name == 'Grand Overlook' and player_input == 's':
-        return True
-    elif player.current_room.name == 'Narrow Passage' and player_input in narrow_possible_inputs:
-        return True
-    elif player.current_room.name == 'Treasure Chamber' and player_input == 's':
+#     if player.current_room.name == 'Outside Cave Entrance' and player_input == 'n':
+#         return True
+#     elif player.current_room.name == 'Foyer' and player_input in foyer_possible_inputs:
+#         return True
+#     elif player.current_room.name == 'Grand Overlook' and player_input == 's':
+#         return True
+#     elif player.current_room.name == 'Narrow Passage' and player_input in narrow_possible_inputs:
+#         return True
+#     elif player.current_room.name == 'Treasure Chamber' and player_input == 's':
+#         return True
+#     else:
+#         return False
+def advance_room(player, player_input):
+    #assigning player input into variable
+    player_attribute = f'{player_input}_to'
+    #checking if the attribute exists in the object
+    if hasattr(player.current_room, player_attribute):
+        #assigning the player object with new room
+        player.current_room = getattr(player.current_room, player_attribute)
         return True
     else:
         return False
-
 # Make a new player object that is currently in the 'outside' room.\
 first_player = Player("BraveHeart", rooms['outside'])
 
@@ -86,14 +95,12 @@ while True:
     player_input = input("-> ")
 
     if player_input in possible_inputs:
-        result = check_bad_input(first_player, player_input)
+        # result = check_bad_input(first_player, player_input)
         if player_input == 'q':
             print(f"Goodbye {first_player.name}")
             break
-        if result:
-            advance_room(first_player, player_input)
-        else:
-            print('You shall not pass! Read the description carefully to choose your path!')
+        if not advance_room(first_player, player_input):
+            print('You shall not pass! Read the description and choose your path carefully!')
     else:
         print('Invalid command! \nPlease enter "n" for North, "s" for South, "e" for East, "w" for West and "q" to quit the game.')
 
